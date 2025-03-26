@@ -18,20 +18,28 @@ async function loadTimetable() {
   
         for (const departure of departures) {
           const [departureHour, departureMinute] = departure.split(':').map(Number);
-          const departureTimeInMinutes = departureHour * 60 + departureMinute;
+          let departureTimeInMinutes = departureHour * 60 + departureMinute;
+  
+          // 24時間を超える場合の処理
+          if (departureTimeInMinutes < currentTimeInMinutes) {
+            departureTimeInMinutes += 24 * 60; // 24時間分を加算
+          }
   
           if (departureTimeInMinutes > currentTimeInMinutes) {
             nextDepartureTime = departure;
             const diffMinutes = departureTimeInMinutes - currentTimeInMinutes;
             const remainingHours = Math.floor(diffMinutes / 60);
             const remainingMinutes = diffMinutes % 60;
-            remainingTime = `<span class="math-inline">\{remainingHours\}時間</span>{remainingMinutes}分`;
+            remainingTime = `${remainingHours}時間${remainingMinutes}分`;
             break;
           }
         }
   
-        const nextDepartureElementId = `bus-stop-<span class="math-inline">\{busStop\.toLowerCase\(\)\.replace\(' ', '\-'\)\}\-route\-</span>{route.toLowerCase().replace(' ', '-')}-next`;
-        const remainingTimeElementId = `bus-stop-<span class="math-inline">\{busStop\.toLowerCase\(\)\.replace\(' ', '\-'\)\}\-route\-</span>{route.toLowerCase().replace(' ', '-')}-remaining`;
+        const busStopKebabCase = busStop.replace(/ /g, '-');
+        const routeKebabCase = route.replace(/ /g, '-');
+        const nextDepartureElementId = `bus-stop-${busStopKebabCase}-route-${routeKebabCase}-next`;
+        const remainingTimeElementId = `bus-stop-${busStopKebabCase}-route-${routeKebabCase}-remaining`;
+  
   
         const nextDepartureElement = document.getElementById(nextDepartureElementId);
         const remainingTimeElement = document.getElementById(remainingTimeElementId);
