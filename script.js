@@ -15,23 +15,24 @@ async function loadTimetable() {
         const departures = timetable[busStop][route];
         let nextDepartureTime = null;
         let remainingTime = null;
+        let minDiff = Infinity;
   
         for (const departure of departures) {
           const [departureHour, departureMinute] = departure.split(':').map(Number);
           let departureTimeInMinutes = departureHour * 60 + departureMinute;
   
-          // 24時間を超える場合の処理
-          if (departureTimeInMinutes < currentTimeInMinutes) {
-            departureTimeInMinutes += 24 * 60; // 24時間分を加算
+          // 現在時刻より前の時刻は24時間後の時刻として扱う
+          if (departureTimeInMinutes <= currentTimeInMinutes) {
+            departureTimeInMinutes += 24 * 60;
           }
   
-          if (departureTimeInMinutes > currentTimeInMinutes) {
+          const diff = departureTimeInMinutes - currentTimeInMinutes;
+          if (diff < minDiff) {
+            minDiff = diff;
             nextDepartureTime = departure;
-            const diffMinutes = departureTimeInMinutes - currentTimeInMinutes;
-            const remainingHours = Math.floor(diffMinutes / 60);
-            const remainingMinutes = diffMinutes % 60;
+            const remainingHours = Math.floor(diff / 60);
+            const remainingMinutes = diff % 60;
             remainingTime = `${remainingHours}時間${remainingMinutes}分`;
-            break;
           }
         }
   
