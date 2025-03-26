@@ -36,8 +36,6 @@ async function loadTimetable() {
             
             if (departureTimeInMinutes < currentTimeInMinutes) {
               span.classList.add('past');
-            } else if (departureTimeInMinutes === currentTimeInMinutes) {
-              span.classList.add('next');
             }
             
             timetableElement.appendChild(span);
@@ -64,7 +62,6 @@ async function loadTimetable() {
           const [departureHour, departureMinute] = departure.split(':').map(Number);
           let departureTimeInMinutes = departureHour * 60 + departureMinute;
   
-          // 現在時刻より前の時刻は24時間後の時刻として扱う
           if (departureTimeInMinutes <= currentTimeInMinutes) {
             departureTimeInMinutes += 24 * 60;
           }
@@ -99,17 +96,21 @@ async function loadTimetable() {
   }
   
   async function init() {
-    const timetable = await loadTimetable();
-    updateCurrentTime();
-    updateBusInfo(timetable);
-    updateTimetable(timetable);
-    
-    // 1分ごとに情報を更新
-    setInterval(() => {
+    try {
+        const timetable = await loadTimetable();
         updateCurrentTime();
         updateBusInfo(timetable);
         updateTimetable(timetable);
-    }, 60000);
+        
+        // 1分ごとに情報を更新
+        setInterval(() => {
+            updateCurrentTime();
+            updateBusInfo(timetable);
+            updateTimetable(timetable);
+        }, 60000);
+    } catch (error) {
+        console.error('エラーが発生しました:', error);
+    }
   }
   
   init();

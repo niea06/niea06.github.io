@@ -68,6 +68,9 @@ h1 {
     margin-top: 15px;
     padding-top: 15px;
     border-top: 1px solid #eee;
+    background-color: white;
+    border-radius: 4px;
+    padding: 10px;
 }
 
 .timetable h4 {
@@ -77,22 +80,26 @@ h1 {
 
 .timetable-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 8px;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 6px;
     font-size: 0.9em;
+    margin-top: 10px;
 }
 
 .timetable-grid span {
-    padding: 4px 8px;
+    padding: 6px 4px;
     background-color: white;
     border-radius: 4px;
     text-align: center;
     border: 1px solid #ddd;
+    display: inline-block;
+    min-width: 60px;
 }
 
 .timetable-grid span.past {
     color: #999;
     background-color: #f5f5f5;
+    border-color: #eee;
 }
 
 .timetable-grid span.next {
