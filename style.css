@@ -12,6 +12,21 @@ h1 {
     margin-bottom: 30px;
 }
 
+.current-time {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.current-time span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
 .bus-stop {
     background-color: white;
     margin-bottom: 30px;
@@ -47,4 +62,41 @@ h1 {
 .route span {
     font-weight: bold;
     color: #2c3e50;
+}
+
+.timetable {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.timetable h4 {
+    color: #34495e;
+    margin: 0 0 10px 0;
+}
+
+.timetable-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 8px;
+    font-size: 0.9em;
+}
+
+.timetable-grid span {
+    padding: 4px 8px;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.timetable-grid span.past {
+    color: #999;
+    background-color: #f5f5f5;
+}
+
+.timetable-grid span.next {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+    color: #1976d2;
 }

@@ -4,6 +4,49 @@ async function loadTimetable() {
     return timetableData;
   }
   
+  function updateCurrentTime() {
+    const now = new Date();
+    const currentTimeElement = document.getElementById('current-time');
+    if (currentTimeElement) {
+        currentTimeElement.textContent = now.toLocaleTimeString('ja-JP');
+    }
+  }
+  
+  function updateTimetable(timetable) {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+    const currentTimeInMinutes = currentHour * 60 + currentMinute;
+  
+    for (const busStop in timetable) {
+      for (const route in timetable[busStop]) {
+        const departures = timetable[busStop][route];
+        const busStopKebabCase = busStop.replace(/ /g, '-');
+        const routeKebabCase = route.replace(/ /g, '-');
+        const timetableElementId = `timetable-${busStopKebabCase}-route-${routeKebabCase}`;
+        const timetableElement = document.getElementById(timetableElementId);
+  
+        if (timetableElement) {
+          timetableElement.innerHTML = '';
+          departures.forEach(departure => {
+            const [departureHour, departureMinute] = departure.split(':').map(Number);
+            const departureTimeInMinutes = departureHour * 60 + departureMinute;
+            const span = document.createElement('span');
+            span.textContent = departure;
+            
+            if (departureTimeInMinutes < currentTimeInMinutes) {
+              span.classList.add('past');
+            } else if (departureTimeInMinutes === currentTimeInMinutes) {
+              span.classList.add('next');
+            }
+            
+            timetableElement.appendChild(span);
+          });
+        }
+      }
+    }
+  }
+  
   function updateBusInfo(timetable) {
     const now = new Date();
     const currentHour = now.getHours();
@@ -57,8 +100,16 @@ async function loadTimetable() {
   
   async function init() {
     const timetable = await loadTimetable();
+    updateCurrentTime();
     updateBusInfo(timetable);
-    setInterval(() => updateBusInfo(timetable), 60000); // 1分ごとに情報を更新
+    updateTimetable(timetable);
+    
+    // 1分ごとに情報を更新
+    setInterval(() => {
+        updateCurrentTime();
+        updateBusInfo(timetable);
+        updateTimetable(timetable);
+    }, 60000);
   }
   
   init();
