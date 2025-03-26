@@ -1,0 +1,14 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  .bus-stop {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+  }
+  
+  .route {
+    margin-bottom: 10px;
+    padding-left: 15px;
+  }
