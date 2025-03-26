@@ -37,9 +37,9 @@ async function loadTimetable() {
     const currentMinute = now.getMinutes();
     const currentTimeInMinutes = currentHour * 60 + currentMinute;
   
-    for (const busStop in timetable[scheduleType]) {
-      for (const route in timetable[scheduleType][busStop]) {
-        const departures = timetable[scheduleType][busStop][route];
+    for (const busStop in timetable) {
+      for (const route in timetable[busStop]) {
+        const departures = timetable[busStop][route][scheduleType];
         const busStopKebabCase = busStop.replace(/ /g, '-');
         const routeKebabCase = route.replace(/ /g, '-');
         const timetableElementId = `timetable-${busStopKebabCase}-route-${routeKebabCase}`;
@@ -70,9 +70,9 @@ async function loadTimetable() {
     const currentMinute = now.getMinutes();
     const currentTimeInMinutes = currentHour * 60 + currentMinute;
   
-    for (const busStop in timetable[scheduleType]) {
-      for (const route in timetable[scheduleType][busStop]) {
-        const departures = timetable[scheduleType][busStop][route];
+    for (const busStop in timetable) {
+      for (const route in timetable[busStop]) {
+        const departures = timetable[busStop][route][scheduleType];
         let nextDepartureTime = null;
         let remainingTime = null;
         let minDiff = Infinity;
