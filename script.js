@@ -18,11 +18,11 @@ async function loadTimetable() {
     return day !== 0 && day !== 6; // 0: 日曜, 6: 土曜
   }
   
-  function updateScheduleTypeButtons() {
+  function updateScheduleTypeButtons(scheduleType) {
     const weekdayBtn = document.getElementById('weekday-btn');
     const holidayBtn = document.getElementById('holiday-btn');
     
-    if (isWeekday()) {
+    if (scheduleType === '平日') {
         weekdayBtn.classList.add('active');
         holidayBtn.classList.remove('active');
     } else {
@@ -121,7 +121,7 @@ async function loadTimetable() {
         
         function updateDisplay() {
             updateCurrentTime();
-            updateScheduleTypeButtons();
+            updateScheduleTypeButtons(currentScheduleType);
             updateBusInfo(timetable, currentScheduleType);
             updateTimetable(timetable, currentScheduleType);
         }
