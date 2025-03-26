@@ -2,24 +2,25 @@ body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     background-color: #f5f5f5;
 }
 
 h1 {
     text-align: center;
     color: #333;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
 }
 
 .current-time {
     background-color: white;
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 .current-time span {
@@ -29,22 +30,23 @@ h1 {
 
 .bus-stop {
     background-color: white;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 20px;
+    padding: 15px;
 }
 
 .bus-stop h2 {
     color: #2c3e50;
     margin-top: 0;
     border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
+    padding-bottom: 8px;
+    font-size: 1.3em;
 }
 
 .route {
-    margin: 15px 0;
-    padding: 15px;
+    margin: 12px 0;
+    padding: 12px;
     background-color: #f8f9fa;
     border-radius: 6px;
 }
@@ -52,11 +54,13 @@ h1 {
 .route h3 {
     color: #34495e;
     margin-top: 0;
+    font-size: 1.1em;
 }
 
 .route p {
-    margin: 8px 0;
+    margin: 6px 0;
     color: #666;
+    font-size: 0.95em;
 }
 
 .route span {
@@ -65,35 +69,36 @@ h1 {
 }
 
 .timetable {
-    margin-top: 15px;
-    padding-top: 15px;
+    margin-top: 12px;
+    padding-top: 12px;
     border-top: 1px solid #eee;
     background-color: white;
     border-radius: 4px;
-    padding: 10px;
+    padding: 8px;
 }
 
 .timetable h4 {
     color: #34495e;
-    margin: 0 0 10px 0;
+    margin: 0 0 8px 0;
+    font-size: 1em;
 }
 
 .timetable-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-    gap: 6px;
-    font-size: 0.9em;
-    margin-top: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 4px;
+    font-size: 0.85em;
+    margin-top: 8px;
 }
 
 .timetable-grid span {
-    padding: 6px 4px;
+    padding: 4px 2px;
     background-color: white;
     border-radius: 4px;
     text-align: center;
     border: 1px solid #ddd;
     display: inline-block;
-    min-width: 60px;
+    min-width: 50px;
 }
 
 .timetable-grid span.past {
@@ -106,4 +111,87 @@ h1 {
     background-color: #e3f2fd;
     border-color: #2196f3;
     color: #1976d2;
+}
+
+/* モバイル対応のメディアクエリ */
+@media screen and (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    h1 {
+        font-size: 1.3em;
+        margin-bottom: 15px;
+    }
+
+    .current-time {
+        padding: 10px;
+        font-size: 1em;
+    }
+
+    .bus-stop {
+        padding: 12px;
+    }
+
+    .bus-stop h2 {
+        font-size: 1.2em;
+    }
+
+    .route {
+        padding: 10px;
+    }
+
+    .route h3 {
+        font-size: 1em;
+    }
+
+    .route p {
+        font-size: 0.9em;
+    }
+
+    .timetable {
+        padding: 6px;
+    }
+
+    .timetable h4 {
+        font-size: 0.95em;
+    }
+
+    .timetable-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+        gap: 3px;
+        font-size: 0.8em;
+    }
+
+    .timetable-grid span {
+        padding: 3px 2px;
+        min-width: 45px;
+    }
+}
+
+/* タブレット対応のメディアクエリ */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.4em;
+    }
+
+    .current-time {
+        font-size: 1.05em;
+    }
+
+    .bus-stop h2 {
+        font-size: 1.25em;
+    }
+
+    .route h3 {
+        font-size: 1.05em;
+    }
+
+    .timetable-grid {
+        grid-template-columns: repeat(auto-fill, minmax(55px, 1fr));
+    }
 }
