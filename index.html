@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>バス出発時刻</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/japanese-holidays@1.0.10/lib/japanese-holidays.min.js"></script>
 </head>
 <body>
   <h1>バス出発時刻</h1>
@@ -18,48 +19,8 @@
     <button id="holiday-btn" class="schedule-btn">休日ダイヤ</button>
   </div>
 
-  <div class="bus-stop">
-    <h2>ゆらら藤白台</h2>
-    <div class="route">
-      <h3>古江台回り</h3>
-      <p>次の出発時刻: <span id="bus-stop-ゆらら藤白台-route-古江台回り-next"></span></p>
-      <p>残り時間: <span id="bus-stop-ゆらら藤白台-route-古江台回り-remaining"></span></p>
-      <div class="timetable">
-        <h4>時刻表</h4>
-        <div id="timetable-ゆらら藤白台-route-古江台回り" class="timetable-grid"></div>
-      </div>
-    </div>
-    <div class="route">
-      <h3>藤白台回り</h3>
-      <p>次の出発時刻: <span id="bus-stop-ゆらら藤白台-route-藤白台回り-next"></span></p>
-      <p>残り時間: <span id="bus-stop-ゆらら藤白台-route-藤白台回り-remaining"></span></p>
-      <div class="timetable">
-        <h4>時刻表</h4>
-        <div id="timetable-ゆらら藤白台-route-藤白台回り" class="timetable-grid"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="bus-stop">
-    <h2>北消防署前</h2>
-    <div class="route">
-      <h3>古江台回り</h3>
-      <p>次の出発時刻: <span id="bus-stop-北消防署前-route-古江台回り-next"></span></p>
-      <p>残り時間: <span id="bus-stop-北消防署前-route-古江台回り-remaining"></span></p>
-      <div class="timetable">
-        <h4>時刻表</h4>
-        <div id="timetable-北消防署前-route-古江台回り" class="timetable-grid"></div>
-      </div>
-    </div>
-    <div class="route">
-      <h3>藤白台回り</h3>
-      <p>次の出発時刻: <span id="bus-stop-北消防署前-route-藤白台回り-next"></span></p>
-      <p>残り時間: <span id="bus-stop-北消防署前-route-藤白台回り-remaining"></span></p>
-      <div class="timetable">
-        <h4>時刻表</h4>
-        <div id="timetable-北消防署前-route-藤白台回り" class="timetable-grid"></div>
-      </div>
-    </div>
+  <div id="timetable-container">
+    <!-- Bus stops will be dynamically generated here -->
   </div>
 
   <script src="script.js"></script>

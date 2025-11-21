@@ -45,13 +45,19 @@ function updateCurrentTime() {
 function isWeekday() {
     const now = new Date();
     const day = now.getDay();
-    return day !== 0 && day !== 6;
+    // 0 is Sunday, 6 is Saturday
+    const isWeekend = day === 0 || day === 6;
+    // Check for Japanese holidays using the library
+    // JapaneseHolidays.isHoliday returns the holiday name if it's a holiday, or undefined
+    const isHoliday = typeof JapaneseHolidays !== 'undefined' && JapaneseHolidays.isHoliday(now);
+
+    return !isWeekend && !isHoliday;
 }
 
 function updateScheduleTypeButtons(scheduleType) {
     const weekdayBtn = document.getElementById('weekday-btn');
     const holidayBtn = document.getElementById('holiday-btn');
-    
+
     if (scheduleType === '平日') {
         weekdayBtn.classList.add('active');
         holidayBtn.classList.remove('active');
@@ -67,6 +73,65 @@ function sortDepartures(departures) {
         const [hourB, minuteB] = b.split(':').map(Number);
         return (hourA * 60 + minuteA) - (hourB * 60 + minuteB);
     });
+}
+
+function renderTimetable(timetable, scheduleType) {
+    const container = document.getElementById('timetable-container');
+    if (!container) return;
+
+    container.innerHTML = ''; // Clear existing content
+
+    // Use the provided schedule type to get the bus stops
+    const busStops = timetable[scheduleType];
+
+    for (const busStopName in busStops) {
+        const busStopDiv = document.createElement('div');
+        busStopDiv.className = 'bus-stop';
+
+        const h2 = document.createElement('h2');
+        h2.textContent = busStopName;
+        busStopDiv.appendChild(h2);
+
+        const routes = busStops[busStopName];
+        for (const routeName in routes) {
+            const routeDiv = document.createElement('div');
+            routeDiv.className = 'route';
+
+            const h3 = document.createElement('h3');
+            h3.textContent = routeName;
+            routeDiv.appendChild(h3);
+
+            const busStopKebab = busStopName.replace(/ /g, '-');
+            const routeKebab = routeName.replace(/ /g, '-');
+
+            // Next Departure Info
+            const pNext = document.createElement('p');
+            pNext.innerHTML = `次の出発時刻: <span id="bus-stop-${busStopKebab}-route-${routeKebab}-next"></span>`;
+            routeDiv.appendChild(pNext);
+
+            const pRemaining = document.createElement('p');
+            pRemaining.innerHTML = `残り時間: <span id="bus-stop-${busStopKebab}-route-${routeKebab}-remaining"></span>`;
+            routeDiv.appendChild(pRemaining);
+
+            // Timetable Grid
+            const timetableDiv = document.createElement('div');
+            timetableDiv.className = 'timetable';
+
+            const h4 = document.createElement('h4');
+            h4.textContent = '時刻表';
+            timetableDiv.appendChild(h4);
+
+            const gridDiv = document.createElement('div');
+            gridDiv.id = `timetable-${busStopKebab}-route-${routeKebab}`;
+            gridDiv.className = 'timetable-grid';
+            timetableDiv.appendChild(gridDiv);
+
+            routeDiv.appendChild(timetableDiv);
+            busStopDiv.appendChild(routeDiv);
+        }
+
+        container.appendChild(busStopDiv);
+    }
 }
 
 function updateTimetable(timetable, scheduleType) {
@@ -92,11 +157,11 @@ function updateTimetable(timetable, scheduleType) {
                     const departureTimeInMinutes = departureHour * 60 + departureMinute;
                     const span = document.createElement('span');
                     span.textContent = departure;
-                    
+
                     if (departureTimeInMinutes < currentTimeInMinutes) {
                         span.classList.add('past');
                     }
-                    
+
                     timetableElement.appendChild(span);
                 });
             }
@@ -166,7 +231,10 @@ async function init() {
         }
 
         let currentScheduleType = isWeekday() ? '平日' : '休日';
-        
+
+        // Initial render of the structure
+        renderTimetable(timetable, currentScheduleType);
+
         function updateDisplay() {
             updateCurrentTime();
             updateScheduleTypeButtons(currentScheduleType);
@@ -180,14 +248,16 @@ async function init() {
         // 平日・休日切り替えボタンのイベントリスナー
         document.getElementById('weekday-btn').addEventListener('click', () => {
             currentScheduleType = '平日';
+            renderTimetable(timetable, currentScheduleType);
             updateDisplay();
         });
 
         document.getElementById('holiday-btn').addEventListener('click', () => {
             currentScheduleType = '休日';
+            renderTimetable(timetable, currentScheduleType);
             updateDisplay();
         });
-        
+
         // 30秒ごとに情報を更新
         setInterval(updateDisplay, 30000);
     } catch (error) {
